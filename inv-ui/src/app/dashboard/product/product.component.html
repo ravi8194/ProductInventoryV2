@@ -1,0 +1,253 @@
+<!-- <app-loader></app-loader> -->
+<mat-sidenav-container fxFlexFill class="product-container">
+  <mat-sidenav
+    #filter
+    opened
+    role="navigation"
+    fxLayout="column"
+    mode="{{ media.isActive('gt-sm') ? 'side' : 'over' }}"
+    [opened]="!media.isActive('xs')"
+  >
+    <mat-nav-list class="product-sidenav" fxLayout="column">
+      <div class="pl-4">
+        <h3>Filter</h3>
+        <div class="list-div">
+          <h5>By Category</h5>
+          <div *ngFor="let category of Categories">
+            <label for="category">
+              <input
+                type="checkbox"
+                (change)="onCategoryChange(category._id, $event.target.checked)"
+              />
+              {{ category.category_name }} &nbsp;&nbsp;
+            </label>
+          </div>
+          <button
+            *ngIf="!isAdmin"
+            class="btn btn-primary"
+            (click)="filterProduct()"
+          >
+            Apply
+          </button>
+        </div>
+        <div *ngIf="isAdmin" class="list-div">
+          <h5>By Seller</h5>
+          <div *ngFor="let user of usersList">
+            <label for="user">
+              <input
+                type="checkbox"
+                (change)="onUserChange(user.id, $event.target.checked)"
+              />
+              {{ user.userName }} &nbsp;&nbsp;
+            </label>
+          </div>
+          <button class="btn btn-primary" (click)="filterProduct()">
+            Apply
+          </button>
+        </div>
+      </div>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div
+      fxLayout="column"
+      fxLayoutAlign="space-between none"
+      fxLayoutgap="30px"
+    >
+      <div
+        fxLayout="row wrap"
+        fxLayot.xs="column"
+        fxLayoutAlign="start space-evenly"
+        fxLayoutGap="10px"
+        class="product-sidenav-content ml-4"
+        *ngIf="pagesCount"
+      >
+        <div *ngFor="let data of productList" class="mb-3">
+          <mat-card
+            class="product-card"
+            fxLayout="column"
+            fxLayoutGap="10px"
+            fxLayoutAlign="space-evenly center"
+          >
+            <mat-card-header>
+              <mat-card-title>{{
+                data.productName.length > 20
+                  ? (data.productName | slice: 0:20) + '..'
+                  : data.productName
+              }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content
+              (click)="openVerticallyCentered(data)"
+              class="card card-border pointer"
+            >
+              <div>
+                <img
+                  mat-card-image
+                  class="card-img-top img-responsive"
+                  [src]="data.productImage"
+                  alt="Photo of a product"
+                />
+              </div>
+              <div class="text-center">
+                <h5 class="ml-4">{{ data.price | currency: 'INR':true }}</h5>
+              </div>
+              <div class="text-center">
+                <ngb-rating [rate]="data.rating">
+                  <ng-template let-fill="fill">
+                    <span
+                      class="star"
+                      [ngClass]="'color' + data.rating"
+                      [class.filled]="fill === 100"
+                      >&#9733;</span
+                    >
+                  </ng-template>
+                </ngb-rating>
+                <span>(200)</span>
+              </div>
+            </mat-card-content>
+            <mat-card-actions>
+              <button
+                class="btn btn-primary"
+                *ngIf="isUser"
+                (click)="addToCart(data)"
+              >
+                Add To Cart
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+      <div *ngIf="!pagesCount" fxFlexOffset="30" fxLayoutAlign="center start">
+        <h5>No Product Found</h5>
+      </div>
+      <div fxLayoutAlign="center" fxLayoutGap.xs="0" fxFlex class="mt-4">
+        <div class="item item-4" fxFlex fxFlexOffset.xs="0">
+          <ngb-pagination
+            *ngIf="pagesCount > 1"
+            class="d-flex justify-content-center"
+            [collectionSize]="pagesCount * 10"
+            [(page)]="page"
+            (pageChange)="onChangePage()"
+          ></ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- <div fxLayout="column" fxLayoutAlign="space-between none" fxLayoutgap="30px">
+  <div>
+    <header class="navbar navbar-light mr-5">
+      <button
+        class="navbar-toggler sidebar-toggler zindex"
+        type="button"
+        (click)="_toggleSidebar()"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </header>
+  </div>
+ 
+  <div>
+    <div fxLayout="row" fxLayot.xs="column">
+      <div fxFlex="20" class="pl-4">
+        <ng-sidebar-container style="height: 100vh;">
+          <ng-sidebar [(opened)]="_opened" position="left">
+            <div class="mt-5">
+              <h3>Filter</h3>
+              <div class="list-div">
+                <h5>By Category</h5>
+                <div *ngFor="let category of Categories">
+                  <label for="category">
+                    <input
+                      type="checkbox"
+                      (change)="
+                        onCategoryChange(category._id, $event.target.checked)
+                      "
+                    />
+                    {{ category.category_name }} &nbsp;&nbsp;
+                  </label>
+                </div>
+                <button
+                  *ngIf="!isAdmin"
+                  class="btn btn-primary"
+                  (click)="filterProduct()"
+                >
+                  Apply
+                </button>
+              </div>
+              <div *ngIf="isAdmin" class="list-div">
+                <h5>By Seller</h5>
+                <div *ngFor="let user of usersList">
+                  <label for="user">
+                    <input
+                      type="checkbox"
+                      (change)="onUserChange(user.id, $event.target.checked)"
+                    />
+                    {{ user.userName }} &nbsp;&nbsp;
+                  </label>
+                </div>
+                <button class="btn btn-primary" (click)="filterProduct()">
+                  Apply
+                </button>
+              </div>
+            </div>
+          </ng-sidebar>
+        </ng-sidebar-container>
+      </div>
+      <div
+        fxLayout="row wrap"
+        fxLayot.xs="column"
+        fxLayoutAlign="start none"
+        fxLayoutGap="16px grid"
+        fxFlex="80"
+        *ngIf="pagesCount"
+      >
+        <div *ngFor="let data of productList">
+          <div class="card card-border" (click)="openVerticallyCentered(data)">
+            <img
+              fxLayoutAlign="space-around center"
+              class="card-img-top img-responsive"
+              [src]="data.productImage"
+              alt="Card image cap"
+            />
+            <div class="card-block">
+              <h5 class="card-title" fxLayoutAlign="space-around center">
+                {{ data.productName }}
+              </h5>
+              <h5 fxLayoutAlign="space-around center">
+                &nbsp;&#36;{{ data.price }}
+              </h5>
+              <div fxLayoutAlign="space-around center">
+                <ngb-rating [rate]="data.rating">
+                  <ng-template let-fill="fill">
+                    <span
+                      class="star"
+                      [ngClass]="'color' + data.rating"
+                      [class.filled]="fill === 100"
+                      >&#9733;</span
+                    >
+                  </ng-template>
+                </ngb-rating>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!pagesCount" fxFlexOffset="30" fxLayoutAlign="center none">
+        <h5>No Product Found</h5>
+      </div>
+    </div>
+  </div>
+  <div fxLayoutAlign="center" fxLayoutGap.xs="0" fxFlex class="mt-4">
+    <div class="item item-4" fxFlex fxFlexOffset.xs="0">
+      <ngb-pagination
+        *ngIf="pagesCount > 1"
+        class="d-flex justify-content-center"
+        [collectionSize]="pagesCount * 10"
+        [(page)]="page"
+        (pageChange)="onChangePage()"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div> -->

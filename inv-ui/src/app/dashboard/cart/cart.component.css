@@ -1,0 +1,18 @@
+.cart-img-top {
+  height: 100px !important;
+  max-width: 100px !important;
+}
+.price-card {
+  max-width: 400px;
+  max-height: 250px;
+}
+.noCart-img {
+  height: 250px !important;
+  width: 250px !important;
+}
+
+.item-card {
+  padding: 20px 2px;
+  border-bottom: 2px dotted rgba(17, 92, 108, 0.46);
+  margin-bottom: 15px;
+}

@@ -1,0 +1,69 @@
+<mat-toolbar color="primary" class="sticky">
+  <mat-toolbar-row
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+    #stickyMenu
+    [class.head-style]="sticky"
+  >
+    <div fxLayout="row">
+      <div *ngIf="router.url === '/dashboard/product'">
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="toggleSideNav()"
+        >
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+      </div>
+      <div fxLayoutAlign="start center">
+        <a routerLink="/dashboard/product">
+          <h4>Product Manager</h4>
+        </a>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="end">
+      <div *ngIf="isUser">
+        <mat-icon
+          class="material-icons cart-icon"
+          [matBadge]="cartItemCount"
+          matBadgeColor="warn"
+          routerLink="/dashboard/cart"
+        >
+          shopping_cart
+        </mat-icon>
+      </div>
+      <div fxLayoutAlign="end center">
+        <button mat-button [matMenuTriggerFor]="menu">{{ userName }}</button>
+        <mat-menu #menu="matMenu">
+          <button routerLink="/dashboard/product" ngbDropdownItem>
+            Home
+          </button>
+          <button
+            *ngIf="!isUser"
+            (click)="openVerticallyCentered()"
+            ngbDropdownItem
+          >
+            Add Product
+          </button>
+          <button
+            *ngIf="isUser"
+            [routerLink]="['/dashboard/order', userId]"
+            ngbDropdownItem
+          >
+            My Order
+          </button>
+          <button
+            type="button"
+            class="btn btn-light btn-sm"
+            routerLink="/login"
+            (click)="logout()"
+            ngbDropdownItem
+          >
+            Logout
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>

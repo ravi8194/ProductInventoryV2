@@ -1,0 +1,243 @@
+<div class="container">
+  <div class="row">
+    <div class="product-div">
+      <div class="card border-primary">
+        <div class="card-header bg-primary">
+          <ul class="list-inline">
+            <li class="list-inline-item">
+              <h6 class="card-text">Product Details</h6>
+            </li>
+          </ul>
+        </div>
+        <div class="card-body p-0">
+          <form [formGroup]="productForm" class="form-horizontal">
+            <div class="row">
+              <div class="col">
+                <div class="form-group pl-2">
+                  <label for="productName">Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="productName"
+                    placeholder="Product Name"
+                  />
+                  <div class="invalid-feedback">
+                    <div
+                      *ngIf="
+                        isSubmitted &&
+                        formControls.productName.hasError('required')
+                      "
+                    >
+                      Please enter product name.
+                    </div>
+                    <div
+                      *ngIf="
+                        isSubmitted &&
+                        formControls.productName.hasError('minlength')
+                      "
+                    >
+                      Product name must be at most 5 characters long.
+                    </div>
+                    <div
+                      *ngIf="
+                        isSubmitted &&
+                        formControls.productName.hasError('maxlength')
+                      "
+                    >
+                      Product name must be at most 50 characters long.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group pr-2">
+                  <label for="price">Price</label>
+                  <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">$</div>
+                    </div>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="price"
+                      placeholder="Enter price"
+                    />
+                  </div>
+
+                  <div class="invalid-feedback">
+                    <div
+                      *ngIf="
+                        isSubmitted && formControls.price.hasError('required')
+                      "
+                    >
+                      Please enter product price.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="form-group pl-2">
+                  <label for="productName">Category</label>
+                  <select
+                    class="form-control"
+                    formControlName="category"
+                    (ngModelChange)="onSelect($event)"
+                  >
+                    <option value="">--Select Category--</option>
+                    <option
+                      *ngFor="let category of categories"
+                      [ngValue]="category._id"
+                    >
+                      {{ category.category_name }}
+                    </option>
+                  </select>
+                  <div class="invalid-feedback">
+                    <div
+                      *ngIf="
+                        isSubmitted &&
+                        formControls.category.hasError('required')
+                      "
+                    >
+                      Please enter category name.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group pr-2">
+                  <label for="productName">Sub Category</label>
+                  <select class="form-control" formControlName="subCategory">
+                    <option value="">--Select SubCategory--</option>
+                    <option
+                      *ngFor="let subCategory of subCategories"
+                      [ngValue]="subCategory._id"
+                    >
+                      {{ subCategory.category_name }}
+                    </option>
+                  </select>
+                  <div class="invalid-feedback">
+                    <div
+                      *ngIf="
+                        isSubmitted &&
+                        formControls.subCategory.hasError('required')
+                      "
+                    >
+                      Please enter subCategory name.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-group">
+                <label for="productName">Description</label>
+                <ckeditor
+                  formControlName="description"
+                  [editor]="Editor"
+                ></ckeditor>
+                <div class="invalid-feedback">
+                  <div
+                    *ngIf="
+                      isSubmitted &&
+                      formControls.description.hasError('required')
+                    "
+                  >
+                    Please enter description.
+                  </div>
+                  <div
+                    *ngIf="
+                      isSubmitted &&
+                      formControls.description.hasError('minlength')
+                    "
+                  >
+                    description must be at most 5 characters long.
+                  </div>
+                  <div
+                    *ngIf="
+                      isSubmitted &&
+                      formControls.description.hasError('maxlength')
+                    "
+                  >
+                    description must be at most 50 characters long.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-group">
+                <label for="rating">Rating:-</label>
+                <ngb-rating formControlName="rating">
+                  <ng-template let-fill="fill" let-index="index">
+                    <span
+                      class="star"
+                      [class.bad]="index < 3"
+                      [class.filled]="fill === 100"
+                      >&#9733;</span
+                    >
+                  </ng-template>
+                </ngb-rating>
+                <div class="invalid-feedback">
+                  <div
+                    *ngIf="
+                      isSubmitted && formControls.rating.hasError('required')
+                    "
+                  >
+                    Please enter rating.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="col-sm-8 col-form-label" for="image">
+                  image:
+                </label>
+                <input
+                  style="display: none"
+                  type="file"
+                  (change)="onFileChanged($event)"
+                  formControlName="productImage"
+                  class="form-control"
+                  #fileInput
+                />
+                <button (click)="fileInput.click()">Select File</button>
+              </div>
+            </div>
+            <div class="buttons">
+              <button
+                *ngIf="id === null"
+                type="submit"
+                class="btn btn-primary"
+                (click)="add($event)"
+              >
+                Add
+              </button>
+              <button
+                *ngIf="id !== null"
+                type="button"
+                class="btn btn-success"
+                (click)="update($event)"
+              >
+                Save
+              </button>
+              <button type="button" class="btn btn-warning" (click)="reset()">
+                Reset
+              </button>
+              <button
+                type="button"
+                class="btn"
+                (click)="modal.close('Close click')"
+              >
+                cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

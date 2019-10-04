@@ -1,0 +1,36 @@
+.pointer {
+  cursor: pointer;
+  border: 1px solid #c1c1c138;
+}
+.hover :hover {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+.card-border {
+  border: none;
+}
+.card-img-top {
+  height: 250px !important;
+  max-width: 250px !important;
+}
+.zindex {
+  z-index: 999;
+}
+.product-container {
+  min-height: 100vh;
+}
+
+.product-sidenav-content {
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-sidenav {
+  padding: 20px;
+}
+.product-card {
+  width: 310px;
+  /* max-width: 32%; */
+}

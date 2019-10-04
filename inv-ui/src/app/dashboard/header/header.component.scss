@@ -1,0 +1,27 @@
+.mat-toolbar.mat-primary {
+  background: #007bff;
+  color: #fff;
+}
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+  z-index: 999;
+  font-size: 4px;
+}
+
+.head-style {
+  background-color: #026ee2 !important;
+  transition: 0.5s;
+}
+.cart-color {
+  background-color: #026ee2 !important;
+}
+.cart-icon {
+  cursor: pointer;
+  position: relative;
+  top: 7px;
+  outline: none;
+  border: none !important;
+}

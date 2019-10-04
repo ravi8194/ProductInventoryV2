@@ -1,0 +1,26 @@
+.dark-modal .modal-content {
+  background-color: #292b2c;
+  color: white;
+}
+.dark-modal .close {
+  color: white;
+}
+.light-blue-backdrop {
+  background-color: #5cb3fd;
+}
+.card-img-top {
+  max-width: 100%;
+  max-height: auto;
+  /* width: 350px !important;
+  height: 400px !important; */
+}
+
+.slide-margin {
+  margin: 10px;
+}
+.description {
+  font-size: 13px;
+}
+.img-height {
+  height: 180px;
+}

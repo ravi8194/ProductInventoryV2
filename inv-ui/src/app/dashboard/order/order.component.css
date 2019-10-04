@@ -1,0 +1,64 @@
+.pointer {
+  cursor: pointer;
+  border: 1px solid #c1c1c138;
+}
+.hover :hover {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+.card-border {
+  border: none;
+}
+.order-img-top {
+  height: 100px !important;
+  max-width: 100px !important;
+}
+.zindex {
+  z-index: 999;
+}
+.product-container {
+  position: fixed;
+  min-height: 100vh;
+}
+
+.product-sidenav-content {
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-sidenav {
+  padding: 20px;
+}
+.main-card {
+  background-color: #eeee;
+}
+.greyText {
+  font-size: 12px;
+  color: #878787;
+}
+.filled {
+  color: green;
+}
+.bad {
+  color: #deb0b0;
+}
+.filled.bad {
+  color: #ff1e1e;
+}
+.noCart-img {
+  height: 250px !important;
+  width: 250px !important;
+}
+.item-card {
+  padding: 20px 2px;
+  border-bottom: 2px dotted rgba(17, 92, 108, 0.46);
+  margin-bottom: 15px;
+}
+.orderId-btn {
+  font-size: 15px;
+  font-weight: inherit;
+  padding: 4px 10px;
+  margin: 0px -15px;
+}

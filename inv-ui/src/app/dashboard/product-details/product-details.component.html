@@ -1,0 +1,90 @@
+<div fxLayout="column">
+  <div fxLayout="row" class="modal-header">
+    <div class="modal-title">{{ name }}</div>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div
+    fxLayout="column"
+    fxLayoutAlign="space-between center"
+    class="modal-body"
+  >
+    <div
+      class="card-img-top"
+      fxLayout="column"
+      fxLayoutAlign="space-around center"
+    >
+      <img
+        class="img-fluid img-thumbnail mx-auto d-block img-height"
+        [src]="product.productImage"
+        alt="Card image cap"
+      />
+      <ngb-rating [rate]="product.rating">
+        <ng-template let-fill="fill">
+          <span
+            class="star"
+            [ngClass]="'color' + product.rating"
+            [class.filled]="fill === 100"
+            >&#9733;</span
+          >
+        </ng-template>
+      </ngb-rating>
+    </div>
+    <h5>{{ product.price | currency: 'INR':true }}</h5>
+    <div [innerHtml]="product.description" class="description"></div>
+
+    <mat-slide-toggle
+      *ngIf="isAdmin"
+      class="slide-margin"
+      [color]="warn"
+      [checked]="checked"
+      [disabled]="disabled"
+      (change)="softDelete($event)"
+    >
+      Archieve
+    </mat-slide-toggle>
+    <div fxLayout="row">
+      <div class="pr-3">
+        <button
+          class="btn btn-primary"
+          *ngIf="isUser"
+          (click)="addToCart(product)"
+        >
+          Add To Cart
+        </button>
+      </div>
+      <div>
+        <button
+          class="btn btn-primary"
+          *ngIf="isUser"
+          (click)="buyNow(product)"
+        >
+          Buy Now
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-light"
+      (click)="modal.close('Close click')"
+    >
+      Close
+    </button>
+    <button
+      *ngIf="!isUser"
+      type="button"
+      class="btn btn-light"
+      (click)="modal.close('Close click'); openVerticallyCentered(product)"
+    >
+      Edit
+    </button>
+  </div>
+</div>

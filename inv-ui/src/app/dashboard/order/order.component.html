@@ -1,0 +1,103 @@
+<mat-card
+  fxLayout="column"
+  fxFlex="66"
+  fxFlexOffset="15"
+  *ngIf="orderList.length"
+>
+  <mat-card-header>
+    <mat-card-title>My Order</mat-card-title>
+  </mat-card-header>
+  <mat-card-content fxLayout="column" fxLayoutGap="30px">
+    <mat-card *ngFor="let data of orderList">
+      <mat-card-header class="main-card">
+        <mat-card-title class="pt-1"
+          ><button class="btn btn-primary orderId-btn">
+            {{ data._id }}
+          </button></mat-card-title
+        >
+      </mat-card-header>
+      <mat-card-content
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutAlign="space-between"
+        *ngFor="let product of data.product"
+        class="item-card"
+      >
+        <div fxFlex="12" class="text-center">
+          <img
+            class="order-img-top img-responsive"
+            [src]="product.productImage"
+            alt="Card image cap"
+          />
+        </div>
+        <div fxLayout="column">
+          <h5>
+            {{
+              product.productName.length > 20
+                ? (product.productName | slice: 0:20) + '..'
+                : product.productName
+            }}
+          </h5>
+          <div class="greyText">Seller: Vihaan</div>
+        </div>
+        <div>
+          <h5>{{ product.price | currency: 'INR':true }}</h5>
+        </div>
+        <div fxLayout="column">
+          <div>
+            <h5>Delivered On {{ data.orderedDate | date: 'dd/MM/yyyy' }}</h5>
+          </div>
+          <div class="greyText">
+            Your Item has be delivered
+          </div>
+        </div>
+        <div>
+          <!-- <label for="rating">Rating:-</label> -->
+          <ngb-rating [(rate)]="product.rating">
+            <ng-template let-fill="fill" let-index="index">
+              <span
+                class="star"
+                [class.bad]="index < 3"
+                [class.filled]="fill === 100"
+                >&#9733;</span
+              >
+            </ng-template>
+          </ngb-rating>
+        </div>
+      </mat-card-content>
+      <mat-card-actions fxLayout="row" fxLayoutAlign="space-between">
+        <div>
+          Ordered On
+          <strong>{{ data.orderedDate | date: 'dd/MM/yyyy' }}</strong>
+        </div>
+        <div>
+          Order Total
+          <strong>{{ data.totalPrice | currency: 'INR':true }}</strong>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </mat-card-content>
+</mat-card>
+<mat-card
+  fxLayout="column"
+  fxFlex="66"
+  fxFlexOffset="15"
+  *ngIf="!orderList.length"
+  class="mt-5"
+>
+  <mat-card-header>
+    <mat-card-title>My Order</mat-card-title>
+  </mat-card-header>
+  <mat-card-content fxLayout="column" fxLayoutAlign="center center">
+    <div>
+      <img
+        class="noCart-img img-responsive"
+        src="https://rukminim1.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90"
+        alt="Cart is Empty"
+      />
+    </div>
+    <div>
+      <h5>You have not place any Order yet!</h5>
+    </div>
+  </mat-card-content>
+</mat-card>
